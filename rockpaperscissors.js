@@ -1,5 +1,25 @@
-let roundResultSimplified;
-let roundResult;
+const startButton = document.getElementById("start-button");
+const gameContainer = document.getElementById("gamecontainer");
+const playerChoiceDiv = document.getElementById("player-selection");
+const computerChoiceDiv = document.getElementById("computer-selection");
+const scoreboard = document.getElementById("scoreboard");
+const playerRock = document.getElementById("player-rock");
+const playerPaper = document.getElementById("player-paper");
+const playerScissors = document.getElementById("player-scissors");
+const computerRock = document.getElementById("computer-rock");
+const computerPaper = document.getElementById("computer-paper");
+const computerScissors = document.getElementById("computer-scissors");
+const playerScore = document.getElementById("player-score");
+const computerScore = document.getElementById("computer-score");
+const playerMessage = document.getElementById("player-choice-message")
+const computerMessage = document.getElementById("computer-choice-message")
+const overallResult = document.getElementById("overall-result");
+playerRock.addEventListener('click', () => playRound("Rock", computerPlay()));
+playerPaper.addEventListener('click', () => playRound("Paper", computerPlay())); 
+playerScissors.addEventListener('click', () => playRound ("Scissors", computerPlay()));
+startButton.addEventListener('click', startButtonInput);
+let pScore = 0;
+let cScore = 0;
 function computerPlay() {
     let computerSelection;
     let x = Math.random() * 10;
@@ -15,56 +35,102 @@ function computerPlay() {
     return computerSelection;
 }
 function playRound(playerSelection, computerSelection) {
-    let lowerPlayerSelection = playerSelection.toLowerCase();
-    let capitalSelection = lowerPlayerSelection[0].toUpperCase();
-    let capitalPlayerSelection = capitalSelection.concat(lowerPlayerSelection.slice(1));
-    if (lowerPlayerSelection === "rock" && computerSelection === "Scissors" || 
-    lowerPlayerSelection === "paper" && computerSelection === "Rock" ||
-    lowerPlayerSelection === "scissors" && computerSelection === "Paper") {
-        roundResultSimplified = 1;
-        roundResult = `You win! ${capitalPlayerSelection} beats ${computerSelection}!`;
-    }
-    else if (lowerPlayerSelection === "rock" && computerSelection === "Paper" ||
-    lowerPlayerSelection === "paper" && computerSelection === "Scissors" || 
-    lowerPlayerSelection === "scissors" && computerSelection === "Rock" ) {
-        roundResultSimplified = 2;
-        roundResult = `You lose. ${capitalPlayerSelection} gets beaten by ${computerSelection}.`;
-    } 
+    setChoiceBackground(playerSelection, computerSelection);
+    if (playerSelection === "Rock" && computerSelection === "Scissors" || 
+            playerSelection === "Paper" && computerSelection === "Rock" ||
+            playerSelection === "Scissors" && computerSelection === "Paper") {
+                pScore += 1;
+                playerScore.textContent = `${pScore}`;
+                playerScore.style.color = "green";
+                computerScore.style.color = "red";
+            }
+    else if (playerSelection === "Rock" && computerSelection === "Paper" ||
+            playerSelection === "Paper" && computerSelection === "Scissors" || 
+            playerSelection === "Scissors" && computerSelection === "Rock" ) {
+                cScore += 1;
+                computerScore.textContent = `${cScore}`;
+                computerScore.style.color = "green";
+                playerScore.style.color = "red";
+            } 
     else {
-        roundResultSimplified = 3;
-        roundResult = `Draw. You both chose ${capitalPlayerSelection}`;
+        playerScore.style.color = "white";
+        computerScore.style.color = "white";
     }
-    return roundResult;
+    playerMessage.textContent = `${playerSelection}`;
+    computerMessage.textContent = `${computerSelection}`;
+    if (pScore >= 5) {
+        overallResult.textContent = "You Win!";
+        overallResult.setAttribute("style", "display: inline;");
+        startButton.textContent = "Play Again?";
+        gameEnd();
+    }
+    else if (cScore >=5) {
+        overallResult.textContent = "Computer Wins.";
+        overallResult.setAttribute("style", "display: inline;");
+        startButton.textContent = "Try Again?";
+        gameEnd()
+    }
+    else {
+        playerMessage.textContent = `${playerSelection}`;
+        computerMessage.textContent = `${computerSelection}`;
+    }
 }
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    let finalScore;
-    let playerName;
-    playerName = prompt("Name", "");
-    for (let i = 0; i < 5; i++) {
-        playerSelection = prompt("Rock | Paper | Scissors", "");
-        playRound(playerSelection, computerPlay());
-        if (roundResultSimplified === 1) {
-            ++playerScore;
-        }
-        else if (roundResultSimplified === 2) {
-            ++computerScore;
-        }
-        else {
-            playerScore += 0;
-            computerScore += 0;
-        }
-        console.log(roundResult);
+function startButtonInput() {
+    startButton.setAttribute("style", "display: none");
+    playerChoiceDiv.classList.toggle("fadein");
+    computerChoiceDiv.classList.toggle("fadein");
+    scoreboard.classList.toggle("fadein");
+    playerScore.textContent = "0";
+    computerScore.textContent = "0"
+    overallResult.setAttribute("style", "display: none");
+}
+function setChoiceBackground(playerSelection, computerSelection) {
+    if (playerSelection === "Rock") {
+        playerRock.style.backgroundColor = "dodgerblue";
+        playerPaper.style.backgroundColor = "white";
+        playerScissors.style.backgroundColor = "white";
     }
-    if (playerScore > computerScore) {
-        finalScore = `You win! Final Score: ${playerName} | ${playerScore} - Computer | ${computerScore}`;
-    }
-    else if (playerScore < computerScore) {
-        finalScore = `You lose. Final Score: ${playerName} | ${playerScore} - Computer | ${computerScore}`;
+    else if (playerSelection === "Paper") {
+        playerPaper.style.backgroundColor = "dodgerblue";
+        playerRock.style.backgroundColor = "white";
+        playerScissors.style.backgroundColor = "white";
     }
     else {
-        finalScore = `Draw. Final Score: ${playerName} | ${playerScore} - Computer | ${computerScore}`;
+        playerScissors.style.backgroundColor = "dodgerblue";
+        playerPaper.style.backgroundColor = "white";
+        playerRock.style.backgroundColor = "white";
     }
-    console.log(finalScore);
+    if (computerSelection === "Rock") {
+        computerRock.style.backgroundColor = "salmon";
+        computerPaper.style.backgroundColor = "white";
+        computerScissors.style.backgroundColor = "white";
+    }
+    else if (computerSelection === "Paper") {
+        computerPaper.style.backgroundColor = "salmon";
+        computerRock.style.backgroundColor = "white";
+        computerScissors.style.backgroundColor = "white";
+    }
+    else {
+        computerScissors.style.backgroundColor = "salmon";
+        computerPaper.style.backgroundColor = "white";
+        computerRock.style.backgroundColor = "white";
+    }
+}
+function gameEnd() {
+    playerChoiceDiv.classList.toggle("fadein");
+    computerChoiceDiv.classList.toggle("fadein");
+    scoreboard.classList.toggle("fadein");
+    startButton.setAttribute("style", "display: block; margin-top: 100px; font-size: 40px");
+    computerScissors.style.backgroundColor = "white";
+    computerPaper.style.backgroundColor = "white";
+    computerRock.style.backgroundColor = "white"
+    playerScissors.style.backgroundColor = "white";
+    playerPaper.style.backgroundColor = "white";
+    playerRock.style.backgroundColor = "white";
+    playerMessage.textContent = `nothing yet`;
+    computerMessage.textContent = `nothing yet`;
+    computerScore.style.color = "white";
+    playerScore.style.color = "white";
+    pScore = 0;
+    cScore = 0;
 }
