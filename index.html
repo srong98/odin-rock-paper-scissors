@@ -4,9 +4,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <script src="./rockpaperscissors.js" defer></script>
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <script src="./rockpaperscissors.js"></script>
+    <div class="page-container">
+        <header class="site-header">
+            <h1>Rock Paper Scissors</h1>
+        </header>
+        <div class="game-container" id="game-container">
+            <div id="overall-result">
+            </div>
+            <div id="player-selection">
+                <h2 id="player-header">Player</h2>
+                <div id="player-choices">
+                    <img src="./resources/klipartz.com.png" class="player-choice" id="player-rock" alt="Playerside Rock">
+                    <img src="./resources/favpng_paper-coloring-book-drawing-printing.png" class="player-choice" id="player-paper" alt="Playerside Paper">
+                    <img src="./resources/pngwing.com.png" class="player-choice" id="player-scissors" alt="Playerside Scissors">
+                </div>
+                <div class="choice-message">
+                    You chose <span id="player-choice-message">nothing yet</span>.
+                </div>
+            </div>
+            <button id="start-button">Start</button>
+            <div id="computer-selection">
+                <h2 id="computer-header">Computer</h2>
+                <div id="computer-choices">
+                    <img src="./resources/klipartz.com.png" class="computer-choice" id="computer-rock" alt="Computerside Rock">
+                    <img src="./resources/favpng_paper-coloring-book-drawing-printing.png" class="computer-choice" id="computer-paper" alt="Computerside Paper">
+                    <img src="./resources/pngwing.com.png" class="computer-choice" id="computer-scissors" alt="Computerside Scissors">
+                </div>
+                <div class="choice-message">
+                    The computer chose <span id="computer-choice-message">nothing yet</span>.
+                </div>
+            </div>
+        </div>
+        <div id="scoreboard">
+            <div id="player-score">
+                
+            </div>
+            <div>
+                Score
+            </div>
+            <div id="computer-score">
+                
+            </div>
+        </div>
+    </div>
+    <footer>Copyright &copy; Sam R. 2022</footer>
 </body>
 </html>
